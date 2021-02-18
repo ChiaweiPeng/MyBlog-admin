@@ -1,0 +1,27 @@
+{
+  "name": "myblog-admin",
+  "version": "1.0.0",
+  "description": "nodejs blog-admin",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChiaweiPeng/MyBlog-admin.git"
+  },
+  "author": "Pchiawei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChiaweiPeng/MyBlog-admin/issues"
+  },
+  "homepage": "https://github.com/ChiaweiPeng/MyBlog-admin#readme",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7",
+    "redis": "^3.0.2",
+    "xss": "^1.0.8"
+  }
+}
