@@ -67,6 +67,12 @@ const handleBlogRouter = (req, res) => {
     if (method === 'POST' && req.path === '/api/blog/update') {
         const id  = req.query.id || ''
 
+         // 登录判断，防止有人直接通过postman改我的博客
+         const loginCheckResult = loginCheck(req)
+         if(loginCheckResult){
+             return loginCheckResult
+         }
+
         const result = updateBlog(id, req.body)
         return result.then( data => {
             if(data){
@@ -81,6 +87,12 @@ const handleBlogRouter = (req, res) => {
     // 删除博客
     if (method === 'POST' && req.path === '/api/blog/delete') {
         const id = req.query.id || ''
+
+        // 登录判断，防止有人直接通过postman删我的博客
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheckResult
+        }
 
         const result = deleteBlog(id)
         return result.then( data => {
