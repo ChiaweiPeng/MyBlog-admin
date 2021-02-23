@@ -1,4 +1,4 @@
-const { exec } = require('../db/mysql')
+const { exec,escape } = require('../db/mysql')
 // 防止xss攻击
 const xss = require('xss')
 
@@ -28,17 +28,19 @@ const getDetail = (id) => {
 
 // 新建博客
 const newBlog = (blogData = {}) => {
-    const title = xss(blogData.title)
-    const content = xss(blogData.content)
-    const type = xss(blogData.type)
+    const title = xss(escape(blogData.title))
+    const content = xss(escape(blogData.content))
+    const type = xss(escape(blogData.type))
+    const sub_title = xss(escape(blogData.sub_title))
     const createtime = Date.now()
     const author = 'Pchiawei'
 
-    let sql = `insert into blogs (title, content, createtime, author, type) values `
+    let sql = `insert into blogs (title, content, createtime, author, type, sub_title) values `
     if(blogData) {
-        sql += `('${title}','${content}','${createtime}','${author}','${type}')`
+        sql += `(${title},${content},'${createtime}','${author}',${type},${sub_title})`
     }
 
+    console.log(sql)
     return exec(sql).then(insertData => {
         return {
             id : insertData.insertId
@@ -48,20 +50,24 @@ const newBlog = (blogData = {}) => {
 
 // 更新博客
 const updateBlog = (id, blogData = {}) => {
-    const title = xss(blogData.title)
-    const content = xss(blogData.content)
-    const type = xss(blogData.type)
+    const title = xss(escape(blogData.title))
+    const content = xss(escape(blogData.content))
+    const type = xss(escape(blogData.type))
+    const sub_title = xss(escape(blogData.sub_title))
     const createtime = Date.now()
 
     let sql = `update blogs set `
     if(title) {
-        sql += `title='${title}',`
+        sql += `title=${title},`
     }
     if(content) {
-        sql += `content='${content}',`
+        sql += `content=${content},`
     }
     if(type) {
-        sql += `type='${type}',`
+        sql += `type=${type},`
+    }
+    if(sub_title) {
+        sql +=`sub_title=${sub_title},`
     }
     sql += `createtime=${createtime} where id=${id}`
 
