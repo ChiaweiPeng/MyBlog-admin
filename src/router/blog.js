@@ -6,6 +6,15 @@ const { getList,
 } = require('../controller/blog')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 
+// 登录验证
+const loginCheck = (req) => {
+    if(!req.session.username){
+        return Promise.resolve(
+            new ErrorModel('尚未登录，请先登录')
+        )
+    }
+}
+
 const handleBlogRouter = (req, res) => {
 
     const method = req.method
@@ -14,6 +23,15 @@ const handleBlogRouter = (req, res) => {
     if (method === 'GET' && req.path === '/api/blog/list') {
         const keyword = req.query.keyword || ''
         const type = req.query.type || ''
+
+        if(req.query.isadmin){
+            // 要进入管理员界面
+            const loginCheckResult = loginCheck(req)
+            // 有值则是还没登录，返回未登录提醒
+            if(loginCheckResult){
+                return loginCheckResult
+            }
+        }
 
         const result =  getList(keyword, type)
         return result.then( listData => {
@@ -33,6 +51,12 @@ const handleBlogRouter = (req, res) => {
 
     // 新建博客
     if (method === 'POST' && req.path === '/api/blog/new') {
+        // 登录判断
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheckResult
+        }
+
         const result = newBlog(req.body)
         return result.then( data => {
             return new SuccessModel(data)
