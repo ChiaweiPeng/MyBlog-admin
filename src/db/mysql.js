@@ -12,10 +12,10 @@ function exec(sql) {
     const promise = new Promise((resolve, reject) => {
         con.query(sql, (err, result) => {
             if (err) {
+                console.error(chalk.red('写入数据库失败:'), err)
                 reject(err)
                 return
             }
-
             resolve(result)
         })
     })

@@ -2,6 +2,7 @@ const handleBlogRouter = require("./blog")
 const { login } = require('../controller/user')
 const { SuccessModel, ErrorModel } = require("../model/resModel")
 const { set } = require("../db/redis")
+const chalk = require("chalk")
 
 const handleUserRouter = (req, res) => {
 
@@ -10,6 +11,8 @@ const handleUserRouter = (req, res) => {
     if(method === 'POST'&& req.path === '/api/user/login'){
         const username = req.body.username
         const password = req.body.password
+
+        console.log(chalk.blue('请求登录:'),username,password)
 
         const result = login(username, password)
         return result.then( userData => {

@@ -1,3 +1,5 @@
+const { blue } = require('chalk')
+const chalk = require('chalk')
 const { resolve } = require('path')
 const querystring = require('querystring')
 const { set, get } = require('./src/db/redis')
@@ -45,6 +47,10 @@ const getPostData = (req) => {
 }
 
 const serverHandle = (req, res) => {
+
+    // 打印日志
+    console.log(chalk.blue('新接口到来:') + chalk.blue(`${req.method} -- ${chalk.redBright(req.url)} --${req.headers['user-agent']} -- ${Date.now()}`))
+
     // 设置返回格式为 json
     res.setHeader('Content-type', 'application/json')
 
@@ -104,7 +110,8 @@ const serverHandle = (req, res) => {
             req.session = sessionData
         }
 
-        console.log('req.session: ', req.session)
+        // 显示登录信息
+        console.log(chalk.green('req.session: '),req.session)
 
         // 在处理路由之前先获取postdata,同是promise可以直接接上
         return getPostData(req)

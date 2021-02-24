@@ -1,6 +1,7 @@
 const { exec,escape } = require('../db/mysql')
 // 防止xss攻击
 const xss = require('xss')
+const chalk = require('chalk')
 
 // 获取博客列表
 const getList = (keyword, type) => {
@@ -39,8 +40,8 @@ const newBlog = (blogData = {}) => {
     if(blogData) {
         sql += `(${title},${content},'${createtime}','${author}',${type},${sub_title})`
     }
+    console.log(chalk.blue('新创建博客:'),sql)
 
-    console.log(sql)
     return exec(sql).then(insertData => {
         return {
             id : insertData.insertId
@@ -71,6 +72,8 @@ const updateBlog = (id, blogData = {}) => {
     }
     sql += `createtime=${createtime} where id=${id}`
 
+    console.log(chalk.blue('更新博客:'),sql)
+
     return exec(sql).then( updateData => {
         if(updateData.affectedRows > 0){
             return true
@@ -82,6 +85,8 @@ const updateBlog = (id, blogData = {}) => {
 // 删除博客
 const deleteBlog = (id) => {
     let sql = `delete from blogs where id=${id}`
+
+    console.log(chalk.blue('删除博客操作:') ,sql)
 
     return exec(sql).then(delData => {
         if(delData.affectedRows>0){
