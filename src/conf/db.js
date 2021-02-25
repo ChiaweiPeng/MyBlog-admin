@@ -22,9 +22,9 @@ if(env === 'production') {
     MYSQL_CONF = {
         host: 'localhost',
         user: 'root',
-        password: '123456',
+        password: '429789881',
         port: '3306',
-        database: 'my_blog'
+        database: 'my-blog'
     }
 
     REDIS_CONF = {
