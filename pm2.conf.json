@@ -3,6 +3,7 @@
         "name": "my-blog",
         "script": "./bin/www.js",
         "watch": true,
+        "exec_mode": "fork",
         "ignore_watch" : [
             "node_modules",
             "logs"
